@@ -52,7 +52,7 @@ Un fichier *composer.phar* va être créer. Ajouter le (ou le dossier dans leque
 
 ### Scoop
 
-Il est nécessaire d'installer Scoop pour pouvoir installer Symfoni. Entrez la commande suivante dans un PowerShell :
+Il est nécessaire d'installer Scoop pour pouvoir installer Symfony. Entrez la commande suivante dans un PowerShell :
 
 `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser`
 
@@ -60,7 +60,7 @@ Il est nécessaire d'installer Scoop pour pouvoir installer Symfoni. Entrez la c
 
 > Note : Si vous êtes en mode administrateur, les commandes à entrer peuvent être différentes.
 
-### Symfoni
+### Symfony
 
 Dans une console ou un PowerShell, entrez :
 
