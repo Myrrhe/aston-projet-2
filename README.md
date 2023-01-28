@@ -1,6 +1,6 @@
 # aston-projet-2
 
-================================================================================
+===========================================================================
 
 ## Technologies
 
@@ -9,7 +9,7 @@ Front : React Native
 Back : PHP (Symfony)
 
 
-================================================================================
+===========================================================================
 
 ## Liens utiles
 
@@ -22,7 +22,7 @@ Dossier du projet sur Google Drive : https://drive.google.com/drive/folders/1Ege
 Documentation du back-end : 
 
 
-================================================================================
+===========================================================================
 
 ## Installation
 
@@ -66,8 +66,35 @@ Dans une console ou un PowerShell, entrez :
 
 `scoop install symfony-cli`
 
-================================================================================
+### Database
+
+Dans une consolen entrez :
+
+`php src/bin/console doctrine:database:create`
+
+Cela créera la base de donnée d'après les settings contenus dans *src/.env* (DATABASE_URL), et dans *src/bin/packages/doctrine.yaml* (dbal).
+
+Allez dans le fichier de configuration de votre installation de PHP, **php.ini**, vous aurez besoin d'ajouter les lignes suivantes :
+
+- `extension=mysqli`
+- `extension=pdo_mysql`
+- `extension=pdo_sqlite`
+
+
+===========================================================================
 
 ## Lancement
 
 Pour lancer le serveur, allez dans le dossier *src*, puis entrez `symfony server:start`
+
+## Fichiers de migrations
+
+Quand on créera de nouveaux modèles (classes, entités, etc.), on pourra créer automatiquement des fichiers qui indiqueront à la base de données de créer des tables analogues à nos classes en Symfoni.
+
+Ces fichiers sont les fichiers de migrations, et ils seront crées grâce à la commande suivante :
+
+`php src/bin/console make:migration`
+
+Une fois que ces fichiers seront crées, vous pourrez effectuez les migrations via la commande suivante :
+
+`php src/bin/console doctrine:migrations:migrate`
