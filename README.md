@@ -68,17 +68,17 @@ Dans une console ou un PowerShell, entrez :
 
 ### Database
 
-Dans une consolen entrez :
-
-`php src/bin/console doctrine:database:create`
-
-Cela créera la base de donnée d'après les settings contenus dans *src/.env* (DATABASE_URL), et dans *src/bin/packages/doctrine.yaml* (dbal).
-
 Allez dans le fichier de configuration de votre installation de PHP, **php.ini**, vous aurez besoin d'ajouter les lignes suivantes :
 
 - `extension=mysqli`
 - `extension=pdo_mysql`
 - `extension=pdo_sqlite`
+
+Puis dans une console, entrez :
+
+`php src/bin/console doctrine:database:create`
+
+Cela créera la base de donnée d'après les settings contenus dans *src/.env* (DATABASE_URL), et dans *src/bin/packages/doctrine.yaml* (dbal).
 
 
 ===========================================================================
