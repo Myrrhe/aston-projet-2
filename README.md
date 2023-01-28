@@ -49,6 +49,8 @@ Un fichier *composer.phar* va être créer. Ajouter le (ou le dossier dans leque
 
 > Note : Il se peut que vous ayez à ajouter la ligne `extension=pdo_sqlite` dans le fichier php.ini de votre installation PHP
 
+> Note 2 : Il est souvent nécessaire de redémarrer votre ordi pour que les variablrs d'environnement soient prises en compte
+
 
 ### Scoop
 
