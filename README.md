@@ -17,7 +17,7 @@ Documentation Symfony : https://symfony.com/doc/current/index.html
 
 Documentation React : https://reactjs.org/docs/getting-started.html
 
-Diagramme MPD : https://app.diagrams.net/#G1ZfeC3_J-XiF8bzV4XNEwf8T55o4LGtk7
+Diagramme MPD : https://drive.google.com/file/d/1ZfeC3_J-XiF8bzV4XNEwf8T55o4LGtk7/view?usp=sharing
 
 Dossier du projet sur Google Drive : https://drive.google.com/drive/folders/1Egee6zZRN1qUwsUR6z857goBIh14Gv6Q?usp=sharing
 
