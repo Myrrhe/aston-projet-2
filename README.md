@@ -80,18 +80,18 @@ Allez dans le fichier de configuration de votre installation de PHP, **php.ini**
 
 Puis dans une console, entrez :
 
-`php src/bin/console doctrine:database:create`
+`php symfony/bin/console doctrine:database:create`
 
-Cela créera la base de donnée d'après les settings contenus dans *src/.env* (DATABASE_URL), et dans *src/bin/packages/doctrine.yaml* (dbal).
+Cela créera la base de donnée d'après les settings contenus dans *symfony/.env* (DATABASE_URL), et dans *symfony/config/packages/doctrine.yaml* (dbal).
 
-> Par exemple, mettez `DATABASE_URL="mysql://root:@127.0.0.1:3306/aston-project-2?serverVersion=8&charset=utf8mb4"` dans votre *src/.env* pour créer une base de donnée avec le nom **aston-project-2**.
+> Par exemple, mettez `DATABASE_URL="mysql://root:@127.0.0.1:3306/aston-project-2?serverVersion=8&charset=utf8mb4"` dans votre *symfony/.env* pour créer une base de donnée avec le nom **aston-project-2**.
 
 
 ===========================================================================
 
 ## Lancement
 
-Pour lancer le serveur, allez dans le dossier *src*, puis entrez `symfony server:start`
+Pour lancer le serveur, allez dans le dossier *symfony*, puis entrez `symfony server:start`
 
 ## Fichiers de migrations
 
@@ -99,8 +99,8 @@ Quand on créera de nouveaux modèles (classes, entités, etc.), on pourra crée
 
 Ces fichiers sont les fichiers de migrations, et ils seront crées grâce à la commande suivante :
 
-`php src/bin/console make:migration`
+`php symfony/bin/console make:migration`
 
 Une fois que ces fichiers seront crées, vous pourrez effectuez les migrations via la commande suivante :
 
-`php src/bin/console doctrine:migrations:migrate`
+`php symfony/bin/console doctrine:migrations:migrate`
