@@ -17,6 +17,8 @@ Documentation Symfony : https://symfony.com/doc/current/index.html
 
 Documentation React : https://reactjs.org/docs/getting-started.html
 
+Diagramme MPD : https://drive.google.com/file/d/1ZfeC3_J-XiF8bzV4XNEwf8T55o4LGtk7/view?usp=sharing
+
 Dossier du projet sur Google Drive : https://drive.google.com/drive/folders/1Egee6zZRN1qUwsUR6z857goBIh14Gv6Q?usp=sharing
 
 Documentation du back-end : 
@@ -81,6 +83,8 @@ Puis dans une console, entrez :
 `php src/bin/console doctrine:database:create`
 
 Cela créera la base de donnée d'après les settings contenus dans *src/.env* (DATABASE_URL), et dans *src/bin/packages/doctrine.yaml* (dbal).
+
+> Par exemple, mettez `DATABASE_URL="mysql://root:@127.0.0.1:3306/aston-project-2?serverVersion=8&charset=utf8mb4"` dans votre *src/.env* pour créer une base de donnée avec le nom **aston-project-2**.
 
 
 ===========================================================================
