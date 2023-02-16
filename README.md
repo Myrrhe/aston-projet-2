@@ -82,7 +82,7 @@ Puis dans une console, entrez :
 
 `php symfony/bin/console doctrine:database:create`
 
-Cela créera la base de donnée d'après les settings contenus dans *symfony/.env* (DATABASE_URL), et dans *symfony/bin/packages/doctrine.yaml* (dbal).
+Cela créera la base de donnée d'après les settings contenus dans *symfony/.env* (DATABASE_URL), et dans *symfony/config/packages/doctrine.yaml* (dbal).
 
 > Par exemple, mettez `DATABASE_URL="mysql://root:@127.0.0.1:3306/aston-project-2?serverVersion=8&charset=utf8mb4"` dans votre *symfony/.env* pour créer une base de donnée avec le nom **aston-project-2**.
 
