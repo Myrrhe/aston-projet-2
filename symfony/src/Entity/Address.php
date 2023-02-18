@@ -27,12 +27,12 @@ class Address
     #[ORM\Column(length: 255)]
     private ?string $country = null;
 
-    #[ORM\OneToMany(mappedBy: 'addressId', targetEntity: UserAddress::class)]
-    private Collection $userAddresses;
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'addresses')]
+    private Collection $users;
 
     public function __construct()
     {
-        $this->userAddresses = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,30 +89,27 @@ class Address
     }
 
     /**
-     * @return Collection<int, UserAddress>
+     * @return Collection<int, User>
      */
-    public function getUserAddresses(): Collection
+    public function getUsers(): Collection
     {
-        return $this->userAddresses;
+        return $this->users;
     }
 
-    public function addUserAddress(UserAddress $userAddress): self
+    public function addUser(User $user): self
     {
-        if (!$this->userAddresses->contains($userAddress)) {
-            $this->userAddresses->add($userAddress);
-            $userAddress->setAddressId($this);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->addAddress($this);
         }
 
         return $this;
     }
 
-    public function removeUserAddress(UserAddress $userAddress): self
+    public function removeUser(User $user): self
     {
-        if ($this->userAddresses->removeElement($userAddress)) {
-            // set the owning side to null (unless already changed)
-            if ($userAddress->getAddressId() === $this) {
-                $userAddress->setAddressId(null);
-            }
+        if ($this->users->removeElement($user)) {
+            $user->removeAddress($this);
         }
 
         return $this;

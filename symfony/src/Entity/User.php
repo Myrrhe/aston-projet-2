@@ -32,12 +32,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $username = null;
 
-    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: UserAddress::class)]
-    private Collection $userAddresses;
+    #[ORM\ManyToMany(targetEntity: Address::class, inversedBy: 'users')]
+    private Collection $addresses;
 
     public function __construct()
     {
-        $this->userAddresses = new ArrayCollection();
+        $this->addresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,31 +123,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, UserAddress>
+     * @return Collection<int, Address>
      */
-    public function getUserAddresses(): Collection
+    public function getAddresses(): Collection
     {
-        return $this->userAddresses;
+        return $this->addresses;
     }
 
-    public function addUserAddress(UserAddress $userAddress): self
+    public function addAddress(Address $address): self
     {
-        if (!$this->userAddresses->contains($userAddress)) {
-            $this->userAddresses->add($userAddress);
-            $userAddress->setUserId($this);
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
         }
 
         return $this;
     }
 
-    public function removeUserAddress(UserAddress $userAddress): self
+    public function removeAddress(Address $address): self
     {
-        if ($this->userAddresses->removeElement($userAddress)) {
-            // set the owning side to null (unless already changed)
-            if ($userAddress->getUserId() === $this) {
-                $userAddress->setUserId(null);
-            }
-        }
+        $this->addresses->removeElement($address);
 
         return $this;
     }
