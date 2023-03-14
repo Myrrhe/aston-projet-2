@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Illness{% endblock %}
+
+{% block body %}
+    <h1>Create new Illness</h1>
+
+    {{ include('admin_illness/_form.html.twig') }}
+
+    <a href="{{ path('app_admin_illness_index') }}">back to list</a>
+{% endblock %}

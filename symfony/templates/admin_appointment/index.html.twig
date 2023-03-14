@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Appointment index{% endblock %}
+
+{% block body %}
+    <h1>Appointment index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>StartTime</th>
+                <th>EndTime</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.id }}</td>
+                <td>{{ appointment.description }}</td>
+                <td>{{ appointment.startTime ? appointment.startTime|date('H:i:s') : '' }}</td>
+                <td>{{ appointment.endTime ? appointment.endTime|date('H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_appointment_show', {'id': appointment.id}) }}">show</a>
+                    <a href="{{ path('app_admin_appointment_edit', {'id': appointment.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_appointment_new') }}">Create new</a>
+{% endblock %}

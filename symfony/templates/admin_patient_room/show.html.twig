@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PatientRoom{% endblock %}
+
+{% block body %}
+    <h1>PatientRoom</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ patient_room.id }}</td>
+            </tr>
+            <tr>
+                <th>StartTime</th>
+                <td>{{ patient_room.startTime ? patient_room.startTime|date('H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>EndTime</th>
+                <td>{{ patient_room.endTime ? patient_room.endTime|date('H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_patient_room_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_patient_room_edit', {'id': patient_room.id}) }}">edit</a>
+
+    {{ include('admin_patient_room/_delete_form.html.twig') }}
+{% endblock %}

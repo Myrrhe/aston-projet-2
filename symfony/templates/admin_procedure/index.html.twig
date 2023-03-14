@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Procedure index{% endblock %}
+
+{% block body %}
+    <h1>Procedure index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Cost</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for procedure in procedures %}
+            <tr>
+                <td>{{ procedure.id }}</td>
+                <td>{{ procedure.name }}</td>
+                <td>{{ procedure.cost }}</td>
+                <td>
+                    <a href="{{ path('app_admin_procedure_show', {'id': procedure.id}) }}">show</a>
+                    <a href="{{ path('app_admin_procedure_edit', {'id': procedure.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_procedure_new') }}">Create new</a>
+{% endblock %}

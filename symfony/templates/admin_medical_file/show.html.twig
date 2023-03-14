@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MedicalFile{% endblock %}
+
+{% block body %}
+    <h1>MedicalFile</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ medical_file.id }}</td>
+            </tr>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ medical_file.firstName }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_medical_file_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_medical_file_edit', {'id': medical_file.id}) }}">edit</a>
+
+    {{ include('admin_medical_file/_delete_form.html.twig') }}
+{% endblock %}

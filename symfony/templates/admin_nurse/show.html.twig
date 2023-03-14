@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nurse{% endblock %}
+
+{% block body %}
+    <h1>Nurse</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ nurse.id }}</td>
+            </tr>
+            <tr>
+                <th>Ssn</th>
+                <td>{{ nurse.ssn }}</td>
+            </tr>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ nurse.firstName }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ nurse.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ nurse.email }}</td>
+            </tr>
+            <tr>
+                <th>PhoneNumber</th>
+                <td>{{ nurse.phoneNumber }}</td>
+            </tr>
+            <tr>
+                <th>LicenseNumber</th>
+                <td>{{ nurse.licenseNumber }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_nurse_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_nurse_edit', {'id': nurse.id}) }}">edit</a>
+
+    {{ include('admin_nurse/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Procedure{% endblock %}
+
+{% block body %}
+    <h1>Edit Procedure</h1>
+
+    {{ include('admin_procedure/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_admin_procedure_index') }}">back to list</a>
+
+    {{ include('admin_procedure/_delete_form.html.twig') }}
+{% endblock %}

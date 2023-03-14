@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}RoomEquipment index{% endblock %}
+
+{% block body %}
+    <h1>RoomEquipment index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Quantity</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for room_equipment in room_equipments %}
+            <tr>
+                <td>{{ room_equipment.id }}</td>
+                <td>{{ room_equipment.quantity }}</td>
+                <td>
+                    <a href="{{ path('app_admin_room_equipment_show', {'id': room_equipment.id}) }}">show</a>
+                    <a href="{{ path('app_admin_room_equipment_edit', {'id': room_equipment.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_room_equipment_new') }}">Create new</a>
+{% endblock %}

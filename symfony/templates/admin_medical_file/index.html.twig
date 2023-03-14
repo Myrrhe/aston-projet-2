@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MedicalFile index{% endblock %}
+
+{% block body %}
+    <h1>MedicalFile index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FirstName</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for medical_file in medical_files %}
+            <tr>
+                <td>{{ medical_file.id }}</td>
+                <td>{{ medical_file.firstName }}</td>
+                <td>
+                    <a href="{{ path('app_admin_medical_file_show', {'id': medical_file.id}) }}">show</a>
+                    <a href="{{ path('app_admin_medical_file_edit', {'id': medical_file.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_medical_file_new') }}">Create new</a>
+{% endblock %}

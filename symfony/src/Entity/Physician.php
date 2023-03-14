@@ -49,12 +49,16 @@ class Physician
     #[ORM\OneToMany(mappedBy: 'physicianId', targetEntity: Prescription::class)]
     private Collection $prescriptions;
 
+    #[ORM\ManyToMany(targetEntity: Procedure::class, mappedBy: 'physicianId')]
+    private Collection $procedures;
+
     public function __construct()
     {
         $this->physiciansDepartments = new ArrayCollection();
         $this->physiciansSpecializations = new ArrayCollection();
         $this->appointments = new ArrayCollection();
         $this->prescriptions = new ArrayCollection();
+        $this->procedures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -258,6 +262,33 @@ class Physician
             if ($prescription->getPhysicianId() === $this) {
                 $prescription->setPhysicianId(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Procedure>
+     */
+    public function getProcedures(): Collection
+    {
+        return $this->procedures;
+    }
+
+    public function addProcedure(Procedure $procedure): self
+    {
+        if (!$this->procedures->contains($procedure)) {
+            $this->procedures->add($procedure);
+            $procedure->addPhysicianId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProcedure(Procedure $procedure): self
+    {
+        if ($this->procedures->removeElement($procedure)) {
+            $procedure->removePhysicianId($this);
         }
 
         return $this;

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Procedure{% endblock %}
+
+{% block body %}
+    <h1>Procedure</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ procedure.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ procedure.name }}</td>
+            </tr>
+            <tr>
+                <th>Cost</th>
+                <td>{{ procedure.cost }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_procedure_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_procedure_edit', {'id': procedure.id}) }}">edit</a>
+
+    {{ include('admin_procedure/_delete_form.html.twig') }}
+{% endblock %}
