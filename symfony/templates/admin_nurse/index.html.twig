@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nurse index{% endblock %}
+
+{% block body %}
+    <h1>Nurse index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ssn</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Email</th>
+                <th>PhoneNumber</th>
+                <th>LicenseNumber</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for nurse in nurses %}
+            <tr>
+                <td>{{ nurse.id }}</td>
+                <td>{{ nurse.ssn }}</td>
+                <td>{{ nurse.firstName }}</td>
+                <td>{{ nurse.lastName }}</td>
+                <td>{{ nurse.email }}</td>
+                <td>{{ nurse.phoneNumber }}</td>
+                <td>{{ nurse.licenseNumber }}</td>
+                <td>
+                    <a href="{{ path('app_admin_nurse_show', {'id': nurse.id}) }}">show</a>
+                    <a href="{{ path('app_admin_nurse_edit', {'id': nurse.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_nurse_new') }}">Create new</a>
+{% endblock %}

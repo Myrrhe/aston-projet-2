@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Nurse{% endblock %}
+
+{% block body %}
+    <h1>Edit Nurse</h1>
+
+    {{ include('admin_nurse/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_admin_nurse_index') }}">back to list</a>
+
+    {{ include('admin_nurse/_delete_form.html.twig') }}
+{% endblock %}

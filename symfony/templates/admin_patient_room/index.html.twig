@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PatientRoom index{% endblock %}
+
+{% block body %}
+    <h1>PatientRoom index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>StartTime</th>
+                <th>EndTime</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for patient_room in patient_rooms %}
+            <tr>
+                <td>{{ patient_room.id }}</td>
+                <td>{{ patient_room.startTime ? patient_room.startTime|date('H:i:s') : '' }}</td>
+                <td>{{ patient_room.endTime ? patient_room.endTime|date('H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_patient_room_show', {'id': patient_room.id}) }}">show</a>
+                    <a href="{{ path('app_admin_patient_room_edit', {'id': patient_room.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_patient_room_new') }}">Create new</a>
+{% endblock %}
