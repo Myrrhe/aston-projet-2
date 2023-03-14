@@ -70,6 +70,10 @@ Dans une console ou un PowerShell, entrez :
 
 `scoop install symfony-cli`
 
+### Fichier d'environnement
+
+Vous aurez besoin d'un fichier d'environnement *.env* pour faire fonctionner le projet. Ce fichier n'est pas inclut dans les fichiers Github. Contactez quelqu'un qui le possède, et copiez le à la racine du dossier *symfony*.
+
 ### Database
 
 Allez dans le fichier de configuration de votre installation de PHP, **php.ini**, vous aurez besoin d'ajouter les lignes suivantes :
