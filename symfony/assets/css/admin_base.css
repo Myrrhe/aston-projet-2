@@ -415,3 +415,63 @@ div.breadcrumbs a:focus, div.breadcrumbs a:hover {
   width: 100%;
 }
 
+form {
+  margin: 1rem 1rem 1rem 1rem;
+}
+
+form > div {
+  border-color: #272727ff;
+  border-width: 1px;
+  border-style: solid;
+  margin: 0 0 0.5rem 0;
+}
+
+form div > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0.25rem 0.25rem 0.25rem 0.25rem;
+}
+
+form div:not(:last-of-type) {
+  border-bottom: 1px solid #272727ff;
+}
+
+form div:nth-child(2n) {
+  background-color: #212121ff;
+}
+
+form button {
+  appearance: none;
+  background: #264b5dff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  color: #ffffffff;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+form button:hover {
+  background-color: #609ab6ff;
+}
+
+label {
+  
+  color: #c4dce8ff;
+  display: inline-block;
+  vertical-align: text-top;
+  height: auto;
+  width: 6rem;
+}
+
+form input {
+  border: 1px solid #353535ff;
+  border-radius: 4px;
+  padding: 5px 6px;
+  margin-top: 0;
+  color: #eeeeff;
+  background-color: #121212ff;
+}
+
+

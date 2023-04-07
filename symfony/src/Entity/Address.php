@@ -114,4 +114,9 @@ class Address
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->street . ' ' . $this->city . ' ' . strval($this->zipCode) . ' ' . $this->country;
+    }
 }
