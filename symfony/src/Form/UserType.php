@@ -19,7 +19,7 @@ class UserType extends AbstractType
                     'Utilisateur' => 'ROLE_USER',
                     'Administrateur' => 'ROLE_ADMIN',
                     'empty_value' => null
-                ]
+                ], 'multiple' => true
             ])
             ->add('password')
             ->add('username')

@@ -17,6 +17,7 @@ class AppController extends AbstractController
         foreach ($metas as $meta) {
             $entities[] = $stringProcessor->trimSlash($meta->getName());
         }
+        sort($entities);
 
         return $this->render('entities.twig', [
             'entities' => $entities
