@@ -95,4 +95,9 @@ class PhysicianSpecialization
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->physicianId . ' - ' . $this->specializationId;
+    }
 }

@@ -120,4 +120,9 @@ class Prescription
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return 'Prescription: ' . $this->date;
+    }
 }

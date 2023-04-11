@@ -116,4 +116,9 @@ class MedicalFile
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return 'file: ' . $this->patientId;
+    }
 }
