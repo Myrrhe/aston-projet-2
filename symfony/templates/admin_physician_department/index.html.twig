@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PhysicianDepartment index{% endblock %}
+
+{% block body %}
+    <h1>PhysicianDepartment index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>PrimaryAffiliation</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for physician_department in physician_departments %}
+            <tr>
+                <td>{{ physician_department.id }}</td>
+                <td>{{ physician_department.primaryAffiliation ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_physician_department_show', {'id': physician_department.id}) }}">show</a>
+                    <a href="{{ path('app_admin_physician_department_edit', {'id': physician_department.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_physician_department_new') }}">Create new</a>
+{% endblock %}

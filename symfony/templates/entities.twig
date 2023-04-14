@@ -1,0 +1,27 @@
+{# <ul>
+    {% for entity in entities %}
+        <li><a href="{{ path('app_admin_' ~ entity|snake ~ '_index') }}">{{ entity }}</a></li>
+    {% endfor %}
+</ul> #}
+
+<nav class="sticky" id="nav-sidebar">
+    <div class="module">
+        <table>
+
+            {% for entity in entities %}
+
+                <tr class="model">    
+                    <th scope="row" class="th-row">
+                        <a href="{{ path('app_admin_' ~ entity|snake ~ '_index') }}">{{ entity }}</a>
+                    </th>
+
+                    <td class="td-row">
+                        <a href="{{ path('app_admin_' ~ entity|snake ~ '_new') }}" class="addlink">Ajouter</a>
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+        </table>
+    </div>
+</nav>

@@ -64,4 +64,9 @@ class RoomEquipment
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->roomId . ' ' . $this->equipmentId;
+    }
 }

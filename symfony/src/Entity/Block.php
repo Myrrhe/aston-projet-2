@@ -87,4 +87,9 @@ class Block
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->floor . ' - ' . $this->phone;
+    }
 }

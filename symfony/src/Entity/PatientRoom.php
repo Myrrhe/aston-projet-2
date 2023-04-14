@@ -80,4 +80,9 @@ class PatientRoom
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->patientId . ' - ' . $this->roomId;
+    }
 }

@@ -21,9 +21,13 @@ class Specialization
     #[ORM\OneToMany(mappedBy: 'specializationId', targetEntity: PhysicianSpecialization::class)]
     private Collection $physiciansSpecializations;
 
+    #[ORM\ManyToMany(targetEntity: Procedure::class, mappedBy: 'specializations')]
+    private Collection $procedures;
+
     public function __construct()
     {
         $this->physiciansSpecializations = new ArrayCollection();
+        $this->procedures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,5 +75,37 @@ class Specialization
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Procedure>
+     */
+    public function getProcedures(): Collection
+    {
+        return $this->procedures;
+    }
+
+    public function addProcedure(Procedure $procedure): self
+    {
+        if (!$this->procedures->contains($procedure)) {
+            $this->procedures->add($procedure);
+            $procedure->addSpecialization($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProcedure(Procedure $procedure): self
+    {
+        if ($this->procedures->removeElement($procedure)) {
+            $procedure->removeSpecialization($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

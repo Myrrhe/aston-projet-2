@@ -64,4 +64,9 @@ class PrescriptionMedication
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->prescriptionId . ' ' . $this->medicationId;
+    }
 }

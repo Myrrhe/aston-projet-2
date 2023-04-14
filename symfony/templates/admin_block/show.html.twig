@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Block{% endblock %}
+
+{% block body %}
+    <h1>Block</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ block.id }}</td>
+            </tr>
+            <tr>
+                <th>Floor</th>
+                <td>{{ block.floor }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ block.phone }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_block_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_block_edit', {'id': block.id}) }}">edit</a>
+
+    {{ include('admin_block/_delete_form.html.twig') }}
+{% endblock %}

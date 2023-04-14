@@ -27,15 +27,11 @@ class Medication
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'medicationId', targetEntity: PharmacyMedication::class)]
-    private Collection $pharmaciesMedications;
-
     #[ORM\OneToMany(mappedBy: 'medicationId', targetEntity: PrescriptionMedication::class)]
     private Collection $prescriptionsMedications;
 
     public function __construct()
     {
-        $this->pharmaciesMedications = new ArrayCollection();
         $this->prescriptionsMedications = new ArrayCollection();
     }
 
@@ -93,36 +89,6 @@ class Medication
     }
 
     /**
-     * @return Collection<int, PharmacyMedication>
-     */
-    public function getPharmaciesMedications(): Collection
-    {
-        return $this->pharmaciesMedications;
-    }
-
-    public function addPharmaciesMedication(PharmacyMedication $pharmaciesMedication): self
-    {
-        if (!$this->pharmaciesMedications->contains($pharmaciesMedication)) {
-            $this->pharmaciesMedications->add($pharmaciesMedication);
-            $pharmaciesMedication->setMedicationId($this);
-        }
-
-        return $this;
-    }
-
-    public function removePharmaciesMedication(PharmacyMedication $pharmaciesMedication): self
-    {
-        if ($this->pharmaciesMedications->removeElement($pharmaciesMedication)) {
-            // set the owning side to null (unless already changed)
-            if ($pharmaciesMedication->getMedicationId() === $this) {
-                $pharmaciesMedication->setMedicationId(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, PrescriptionMedication>
      */
     public function getPrescriptionsMedications(): Collection
@@ -150,5 +116,10 @@ class Medication
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

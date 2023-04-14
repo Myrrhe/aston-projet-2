@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Allergy{% endblock %}
+
+{% block body %}
+    <h1>Create new Allergy</h1>
+
+    {{ include('admin_allergy/_form.html.twig') }}
+
+    <a href="{{ path('app_admin_allergy_index') }}">back to list</a>
+{% endblock %}

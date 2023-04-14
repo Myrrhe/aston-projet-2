@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New PhysicianSpecialization{% endblock %}
+
+{% block body %}
+    <h1>Create new PhysicianSpecialization</h1>
+
+    {{ include('admin_physician_specialization/_form.html.twig') }}
+
+    <a href="{{ path('app_admin_physician_specialization_index') }}">back to list</a>
+{% endblock %}

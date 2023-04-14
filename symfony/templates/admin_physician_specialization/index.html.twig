@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PhysicianSpecialization index{% endblock %}
+
+{% block body %}
+    <h1>PhysicianSpecialization index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>PrimarySpecialization</th>
+                <th>CertificationDate</th>
+                <th>CertificationExpire</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for physician_specialization in physician_specializations %}
+            <tr>
+                <td>{{ physician_specialization.id }}</td>
+                <td>{{ physician_specialization.primarySpecialization ? 'Yes' : 'No' }}</td>
+                <td>{{ physician_specialization.certificationDate ? physician_specialization.certificationDate|date('Y-m-d') : '' }}</td>
+                <td>{{ physician_specialization.certificationExpire ? physician_specialization.certificationExpire|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_physician_specialization_show', {'id': physician_specialization.id}) }}">show</a>
+                    <a href="{{ path('app_admin_physician_specialization_edit', {'id': physician_specialization.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_physician_specialization_new') }}">Create new</a>
+{% endblock %}
