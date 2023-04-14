@@ -37,7 +37,11 @@ WAMP (ou XAMP si vous n'êtes pas sous Windows) permettra d'utiliser une base de
 
 (Cette partie est optionnelle mais recommandée)
 
-Placez vous dans le répertoire où vous souhaitez installer Composer, puis entrez les commandes suivantes dans un PowerShell :
+Vous avez deux manières d'installer Composer (a priori, la première est préférable) :
+
+1) Aller sur https://getcomposer.org/download/, télécharger et exécuter le fichier d'installation
+
+2) Placez vous dans le répertoire où vous souhaitez installer Composer, puis entrez les commandes suivantes dans un PowerShell :
 
 `php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"`
 
@@ -47,11 +51,13 @@ Placez vous dans le répertoire où vous souhaitez installer Composer, puis entr
 
 `php -r "unlink('composer-setup.php');"`
 
-Un fichier *composer.phar* va être créer. Ajouter le (ou le dossier dans lequel il se trouve) à votre variable d'environnement PATH.
+Un fichier *composer.phar* va être crée. Ajouter le (ou le dossier dans lequel il se trouve) à votre variable d'environnement PATH.
 
 > Note : Il se peut que vous ayez à ajouter la ligne `extension=pdo_sqlite` dans le fichier php.ini de votre installation PHP
 
-> Note 2 : Il est souvent nécessaire de redémarrer votre ordi pour que les variablrs d'environnement soient prises en compte
+> Note 2 : Il est souvent nécessaire de redémarrer votre ordi (ou le CMD) pour que les variables d'environnement soient prises en compte
+
+Vous aurez besoin d'ajouter l'extension .PHAR dans la variable d'environnement PATHEXT (en dessous de Path).
 
 
 ### Scoop
@@ -64,15 +70,29 @@ Il est nécessaire d'installer Scoop pour pouvoir installer Symfony. Entrez la c
 
 > Note : Si vous êtes en mode administrateur, les commandes à entrer peuvent être différentes.
 
+
 ### Symfony
 
 Dans une console ou un PowerShell, entrez :
 
 `scoop install symfony-cli`
 
+
+### Doctrine
+
+Allez dans le répertoire *symfony* du projet, puis, dans une console ou un PowerShell, entrez :
+
+`composer require symfony/orm-pack`
+
+`composer require --dev symfony/maker-bundle`
+
+(Vous pouvez aussi tout simplement entrer `composer require`)
+
+
 ### Fichier d'environnement
 
 Vous aurez besoin d'un fichier d'environnement *.env* pour faire fonctionner le projet. Ce fichier n'est pas inclut dans les fichiers Github. Contactez quelqu'un qui le possède, et copiez le à la racine du dossier *symfony*.
+
 
 ### Database
 
@@ -90,12 +110,10 @@ Cela créera la base de donnée d'après les settings contenus dans *symfony/.en
 
 > Par exemple, mettez `DATABASE_URL="mysql://root:@127.0.0.1:3306/aston-project-2?serverVersion=8&charset=utf8mb4"` dans votre *symfony/.env* pour créer une base de donnée avec le nom **aston-project-2**.
 
+(Vous pouvez également changer le port de la base de donnée, si celui-ci est déjàoccupé par exemple).
+
 
 ===========================================================================
-
-## Lancement
-
-Pour lancer le serveur, allez dans le dossier *symfony*, puis entrez `symfony server:start`
 
 ## Fichiers de migrations
 
@@ -108,3 +126,8 @@ Ces fichiers sont les fichiers de migrations, et ils seront crées grâce à la 
 Une fois que ces fichiers seront crées, vous pourrez effectuez les migrations via la commande suivante :
 
 `php symfony/bin/console doctrine:migrations:migrate`
+
+
+## Lancement
+
+Pour lancer le serveur, allez dans le dossier *symfony*, puis entrez `symfony server:start`
