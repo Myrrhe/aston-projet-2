@@ -1,8 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{# ... #}
+{% block title %}Login{% endblock %}
 
 {% block body %}
+<link rel="stylesheet" href="{{ asset('symfony/assets/css/admin_base.css') }}">
+<div class="div-base">
+
+
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -17,8 +21,12 @@
         {# If you want to control the URL the user is redirected to on success
         <input type="hidden" name="_target_path" value="/account"> #}
 
+        <input type="hidden" name="_target_path" value="/admin"> #}
+
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
         <button type="submit">login</button>
     </form>
+
+</div>
 {% endblock %}

@@ -3,6 +3,9 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+<link rel="stylesheet" href="{{ asset('symfony/assets/css/admin_base.css') }}">
+<div class="div-base">
+
     <h1>Register</h1>
 
     {{ form_start(registrationForm) }}
@@ -15,4 +18,6 @@
 
         <button type="submit" class="btn">Register</button>
     {{ form_end(registrationForm) }}
+
+</div>
 {% endblock %}

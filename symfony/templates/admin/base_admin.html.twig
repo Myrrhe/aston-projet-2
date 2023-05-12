@@ -21,8 +21,9 @@
                 <span id="site-name">Site d'administration</span>
             </div>
             <div id="user-tools">
+                    <span>Welcome, {{ app.user.username }}</span>
                     <a href="/admin/password_change/">Modifier le mot de passe</a> /
-                    <a href="/admin/logout/">Déconnexion</a>
+                    <a href="/logout/">Déconnexion</a>
             </div>
         </div>
 
@@ -34,7 +35,7 @@
 
             {{ render(path('all_entities') )}}
 
-            <div class="div-index">
+            <div class="div-base">
                 {% block body %}{% endblock %}
             </div>
 
