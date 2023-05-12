@@ -110,7 +110,7 @@ Cela créera la base de donnée d'après les settings contenus dans *symfony/.en
 
 > Par exemple, mettez `DATABASE_URL="mysql://root:@127.0.0.1:3306/aston-project-2?serverVersion=8&charset=utf8mb4"` dans votre *symfony/.env* pour créer une base de donnée avec le nom **aston-project-2**.
 
-(Vous pouvez également changer le port de la base de donnée, si celui-ci est déjàoccupé par exemple).
+(Vous pouvez également changer le port de la base de donnée, si celui-ci est déjà occupé par exemple).
 
 
 ===========================================================================
