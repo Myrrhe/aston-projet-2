@@ -19,6 +19,10 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    
+    App\Command\CreateAdminCommand:
+        tags:
+            - { name: 'console.command', command: 'app:create-admin' }
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
