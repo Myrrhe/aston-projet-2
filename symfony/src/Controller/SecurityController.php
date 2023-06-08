@@ -75,13 +75,14 @@ class SecurityController extends AbstractController
 
             if (!$rightPassword || !$passwordMatch) {
                 if (!$rightPassword) {
-                    $form->get('password1')->addError(new FormError('Votre ancien mot de passe est incorrect. Veuillez le rectifier.'));
+                    $form->get('password1')->addError(
+                        new FormError('Votre ancien mot de passe est incorrect. Veuillez le rectifier.'));
                 }
                 if (!$passwordMatch) {
                     $form->get('password3')->addError(new FormError('Les deux mots de passe ne correspondent pas.'));
                 }
                 $form->addError(new FormError('Corrigez l’erreur ci-dessous.'));
-                return $this->renderForm('admin_password_change/admin_password_change.html.twig', [
+                return $this->render('admin_password_change/admin_password_change.html.twig', [
                     'password1' => $password1,
                     'password2' => $password2,
                     'password3' => $password3,
@@ -100,7 +101,7 @@ class SecurityController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute('admin_password_change_done');
         }
-        return $this->renderForm('admin_password_change/admin_password_change.html.twig', [
+        return $this->render('admin_password_change/admin_password_change.html.twig', [
             'password1' => $password1,
             'password2' => $password2,
             'password3' => $password3,
