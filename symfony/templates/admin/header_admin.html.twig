@@ -1,0 +1,12 @@
+<div id="header">
+    <div id="branding">
+        <span id="site-name">Site d'administration</span>
+    </div>
+    <div id="user-tools">
+        {% if app.user %}
+            <span>Bienvenue, {{ app.user.username }} | </span>
+            <a href="/admin/password_change/">Modifier le mot de passe</a> /
+            <a href="/logout/">Déconnexion</a>
+        {% endif %}
+    </div>
+</div>

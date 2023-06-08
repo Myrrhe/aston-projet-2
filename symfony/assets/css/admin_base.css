@@ -24,6 +24,9 @@ article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+html, body {
+  height: 100%;
+}
 body {
 	line-height: 1;
   background-color: #121212ff;
@@ -50,13 +53,21 @@ a:link, a:visited {
   /* transition: color 0.15s, background 0.15s; */
 }
 
+#content a:link, a:visited {
+  color: #81d4faff;
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+}
+
 .div-base {
   padding: 0.5em 0 0 0.5em;
 }
 
 h1 {
-  font-size: 2em;
-  color: #c4dce8ff;
+  margin: 0 0 20px;
+  font-weight: 300;
+  font-size: 20px;
+  color: #e0e0e0ff;
 }
 
 .table {
@@ -91,9 +102,13 @@ h1 {
   vertical-align: middle;
 }
 
-.table th, th {
+tr {
   border-bottom: 1px solid #272727ff;
 }
+
+/* .table th, th {
+  border-bottom: 1px solid #272727ff;
+} */
 
 .table tr {
   height: 2em;
@@ -420,10 +435,7 @@ form {
 }
 
 form > div {
-  border-color: #272727ff;
-  border-width: 1px;
-  border-style: solid;
-  margin: 0 0 0.5rem 0;
+  padding: 0 0 0.5rem 0;
 }
 
 form div > div {
@@ -433,18 +445,15 @@ form div > div {
   padding: 0.25rem 0.25rem 0.25rem 0.25rem;
 }
 
-form div:not(:last-of-type) {
-  border-bottom: 1px solid #272727ff;
-}
-
-form div:nth-child(2n) {
+/* form div:nth-child(2n) {
   background-color: #212121ff;
-}
+} */
 
 form button {
   appearance: none;
   background: #264b5dff;
-  padding: 10px 15px;
+  padding: 10px 15px 10px 15px;
+  margin: 1rem 0 0 0;
   border: none;
   border-radius: 4px;
   color: #ffffffff;
@@ -465,6 +474,14 @@ label {
   width: 6rem;
 }
 
+form label {
+  min-width: 15rem;
+}
+
+.form-error {
+  color: #e35f5fff;
+}
+
 form input {
   border: 1px solid #353535ff;
   border-radius: 4px;
@@ -474,4 +491,23 @@ form input {
   background-color: #121212ff;
 }
 
+p {
+  padding: 0;
+  line-height: 140%;
+  margin: .2em 0 .8em 0;
+  color: #eeeeeeff;
+}
 
+.errornote {
+  font-size: 14px;
+  font-weight: 700;
+  display: block;
+  padding: 10px 12px;
+  margin: 0 0 10px 0;
+  color: #e35f5fff;
+  border: 1px solid #e35f5fff;
+  border-radius: 4px;
+  background-color: #121212ff;
+  background-position: 5px 12px;
+  overflow-wrap: break-word;
+}

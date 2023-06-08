@@ -1,0 +1,38 @@
+{# {{ form_start(form) }}
+    {{ form_widget(form) }}
+{{ form_end(form) }} #}
+
+{{ form_start(form) }}
+    {% if form_errors(form) %}
+        <div class="errornote">
+            {{ form_errors(form) }}
+        </div>
+    {% endif %}
+
+    <div>
+        <div class="form-error">
+            {{ form_errors(form.password1) }}
+        </div>
+        {{ form_label(form.password1) }}
+        {{ form_widget(form.password1) }}
+        <small>{{ form_help(form.password1) }}</small>
+    </div>
+
+    <div>
+        <div class="form-error">
+            {{ form_errors(form.password2) }}
+        </div>
+        {{ form_label(form.password2) }}
+        {{ form_widget(form.password2) }}
+        <small>{{ form_help(form.password2) }}</small>
+    </div>
+
+    <div>
+        <div class="form-error">
+            {{ form_errors(form.password3) }}
+        </div>
+        {{ form_label(form.password3) }}
+        {{ form_widget(form.password3) }}
+        <small>{{ form_help(form.password3) }}</small>
+    </div>
+{{ form_end(form) }}

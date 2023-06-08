@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Logout{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{{ asset('symfony/assets/css/admin_base.css') }}">
+
+    {{ include('admin/header_admin.html.twig') }}
+
+    {{ include('admin/breadcrumbs_admin.html.twig') }}
+
+    <div id="content">
+        <h1>Déconnecté</h1>
+        <p>Merci pour le temps que vous avez accordé à ce site aujourd'hui</p>
+        <p>
+            <a href="/admin/">Connectez-vous à nouveau</a>
+        </p>
+    </div>
+{% endblock %}
