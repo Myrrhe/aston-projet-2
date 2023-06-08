@@ -80,6 +80,7 @@ class SecurityController extends AbstractController
                 if (!$passwordMatch) {
                     $form->get('password3')->addError(new FormError('Les deux mots de passe ne correspondent pas.'));
                 }
+                $form->addError(new FormError('Corrigez l’erreur ci-dessous.'));
                 return $this->renderForm('admin_password_change/admin_password_change.html.twig', [
                     'password1' => $password1,
                     'password2' => $password2,

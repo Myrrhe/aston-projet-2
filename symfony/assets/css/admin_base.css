@@ -435,7 +435,7 @@ form {
 }
 
 form > div {
-  margin: 0 0 0.5rem 0;
+  padding: 0 0 0.5rem 0;
 }
 
 form div > div {
@@ -452,7 +452,8 @@ form div > div {
 form button {
   appearance: none;
   background: #264b5dff;
-  padding: 10px 15px;
+  padding: 10px 15px 10px 15px;
+  margin: 1rem 0 0 0;
   border: none;
   border-radius: 4px;
   color: #ffffffff;
@@ -471,6 +472,14 @@ label {
   vertical-align: text-top;
   height: auto;
   width: 6rem;
+}
+
+form label {
+  min-width: 15rem;
+}
+
+.form-error {
+  color: #e35f5fff;
 }
 
 form input {

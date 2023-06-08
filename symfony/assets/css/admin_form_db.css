@@ -1,3 +1,3 @@
-form div:not(:last-of-type) {
+form div:not(:last-of-type):not(.errornote) {
     border-bottom: 1px solid #272727ff;
 }
