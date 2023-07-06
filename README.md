@@ -128,6 +128,22 @@ Une fois que ces fichiers seront crées, vous pourrez effectuez les migrations v
 `php symfony/bin/console doctrine:migrations:migrate`
 
 
+## Créer un admin
+Pour pouvoir accéder au back-office, il vous faudra un compte ayant les droits d'administration. Vous pouvez entrer la commande :
+
+`php symfony/bin/console app:create-admin <email> [<password>]`
+
+Cela vous créera un compte admin.
+
+L'argument **email** derrière la commande est obligatoire, mais *pas* l'argument **password**. La commande suivante est valide :
+
+`php symfony/bin/console app:create-admin admin@gmail.com`
+
+Dans ce cas, le mot de passe sera tout simplement **admin**.
+
+Vous pourrez ensuite utilisez le compt crée pour vous connecter à l'addresse */admin/login*.
+
+
 ## Lancement
 
 Pour lancer le serveur, allez dans le dossier *symfony*, puis entrez `symfony server:start`
