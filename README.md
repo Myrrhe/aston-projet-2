@@ -144,6 +144,18 @@ Dans ce cas, le mot de passe sera tout simplement **admin**.
 Vous pourrez ensuite utilisez le compt crée pour vous connecter à l'addresse */admin/login*.
 
 
+## Ajouter des données
+Vous pouvez ajouter des données pré-fabriquées dans la base de donnée via la commande suivante :
+
+`php symfony/bin/console app:data-seed`
+
+Si vous souhaitez modifier les données créées, allez dans le fichier *symfony/src/Command/DataSeederCommand.php*.
+
+Vous y trouverez une méthode **execute** contenant un tableau de donnée. Modifier les données de ce tableau avant de lancer la commande au dessus.
+
+> Note importante : Cette commande ne supporte pas les clefs étrangères pour l'instant. N'essayez donc pas d'ajouter des objets possédant une clef étrangère via cette méthode.
+
+
 ## Lancement
 
 Pour lancer le serveur, allez dans le dossier *symfony*, puis entrez `symfony server:start`
