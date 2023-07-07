@@ -92,4 +92,12 @@ class Block
     {
         return $this->floor . ' - ' . $this->phone;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'floor' => $this->floor,
+            'phone' => $this->phone,
+        ];
+    }
 }

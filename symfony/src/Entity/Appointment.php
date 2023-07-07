@@ -208,4 +208,14 @@ class Appointment
     {
         return $this->description;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'description' => $this->description,
+            'starttime' => $this->startTime,
+            'endtime' => $this->endTime,
+            'room' => $this->roomId->serialize(),
+        ];
+    }
 }

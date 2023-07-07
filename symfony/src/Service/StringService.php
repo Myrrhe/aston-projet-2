@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-class StringProcessor
+class StringService
 {
     public function trimSlash(string $s): string
     {
