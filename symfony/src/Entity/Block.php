@@ -19,7 +19,7 @@ class Block
     private ?int $floor = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $phone = null;
+    private ?string $phone = null;
 
     #[ORM\OneToMany(mappedBy: 'blockId', targetEntity: Room::class)]
     private Collection $rooms;
@@ -46,12 +46,12 @@ class Block
         return $this;
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(?int $phone): self
+    public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
 
