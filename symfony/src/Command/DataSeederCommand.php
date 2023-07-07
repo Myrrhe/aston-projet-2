@@ -237,7 +237,7 @@ class DataSeederCommand extends Command
             foreach ($model['values'] as $value) {
                 // If an object already exists in the database, we don't create it
                 if (empty(array_filter($elemAlreadyCreated, function ($elem) use (&$value, &$model) {
-                    return empty(array_filter($model['attrs'], function ($attr, $name) use (&$value, $elem) {
+                    return empty(array_filter($model['attrs'], function ($attr, $name) use (&$value, &$elem) {
                         // The presence of the get tell us the attribute is unique
                         return array_key_exists('get', $attr) && $elem->{$attr['get']}() === $value[$name];
                     }, ARRAY_FILTER_USE_BOTH));
