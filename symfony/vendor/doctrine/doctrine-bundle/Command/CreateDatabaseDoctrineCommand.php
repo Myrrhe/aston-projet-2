@@ -63,10 +63,9 @@ EOT
         }
 
         // Need to get rid of _every_ occurrence of dbname from connection configuration and we have already extracted all relevant info from url
-        /** @psalm-suppress InvalidArrayOffset */
         unset($params['dbname'], $params['path'], $params['url']);
 
-        $tmpConnection = DriverManager::getConnection($params);
+        $tmpConnection = DriverManager::getConnection($params, $connection->getConfiguration());
 
         $schemaManager           = method_exists($tmpConnection, 'createSchemaManager')
             ? $tmpConnection->createSchemaManager()

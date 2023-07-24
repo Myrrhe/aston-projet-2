@@ -3,15 +3,18 @@
 namespace Doctrine\Bundle\DoctrineBundle\Command;
 
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Schema\SqliteSchemaManager;
 use InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
+use function file_exists;
 use function in_array;
 use function method_exists;
 use function sprintf;
+use function unlink;
 
 /**
  * Database tool allows you to easily drop your configured databases.
@@ -24,9 +27,7 @@ class DropDatabaseDoctrineCommand extends DoctrineCommand
 
     public const RETURN_CODE_NO_FORCE = 2;
 
-    /**
-     * {@inheritDoc}
-     */
+    /** @return void */
     protected function configure()
     {
         $this
@@ -73,7 +74,6 @@ EOT
             throw new InvalidArgumentException("Connection does not contain a 'path' or 'dbname' parameter and cannot be dropped.");
         }
 
-        /** @psalm-suppress InvalidArrayOffset */
         unset($params['dbname'], $params['url']);
 
         if (! $input->getOption('force')) {
@@ -89,7 +89,7 @@ EOT
         // Reopen connection without database name set
         // as some vendors do not allow dropping the database connected to.
         $connection->close();
-        $connection         = DriverManager::getConnection($params);
+        $connection         = DriverManager::getConnection($params, $connection->getConfiguration());
         $schemaManager      = method_exists($connection, 'createSchemaManager')
             ? $connection->createSchemaManager()
             : $connection->getSchemaManager();
@@ -102,7 +102,15 @@ EOT
 
         try {
             if ($shouldDropDatabase) {
-                $schemaManager->dropDatabase($name);
+                if ($schemaManager instanceof SqliteSchemaManager) {
+                    // dropDatabase() is deprecated for Sqlite
+                    if (file_exists($name)) {
+                        unlink($name);
+                    }
+                } else {
+                    $schemaManager->dropDatabase($name);
+                }
+
                 $output->writeln(sprintf('<info>Dropped database <comment>%s</comment> for connection named <comment>%s</comment></info>', $name, $connectionName));
             } else {
                 $output->writeln(sprintf('<info>Database <comment>%s</comment> for connection named <comment>%s</comment> doesn\'t exist. Skipped.</info>', $name, $connectionName));

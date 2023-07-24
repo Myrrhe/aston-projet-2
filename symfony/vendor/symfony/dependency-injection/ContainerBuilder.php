@@ -1033,6 +1033,10 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
             return $this->services[$id] ?? $this->privates[$id];
         }
 
+        if (!array_is_list($arguments)) {
+            $arguments = array_combine(array_map(function ($k) { return preg_replace('/^.*\\$/', '', $k); }, array_keys($arguments)), $arguments);
+        }
+
         if (null !== $factory) {
             $service = $factory(...$arguments);
 
@@ -1048,12 +1052,12 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
 
             if (\is_object($tryProxy)) {
                 if ($r->getConstructor()) {
-                    $tryProxy->__construct(...array_values($arguments));
+                    $tryProxy->__construct(...$arguments);
                 }
 
                 $service = $tryProxy;
             } else {
-                $service = $r->getConstructor() ? $r->newInstanceArgs(array_values($arguments)) : $r->newInstance();
+                $service = $r->getConstructor() ? $r->newInstanceArgs($arguments) : $r->newInstance();
             }
 
             if (!$definition->isDeprecated() && 0 < strpos($r->getDocComment(), "\n * @deprecated ")) {
@@ -1208,7 +1212,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         $this->usedTags[] = $name;
         $tags = [];
         foreach ($this->getDefinitions() as $id => $definition) {
-            if ($definition->hasTag($name)) {
+            if ($definition->hasTag($name) && !$definition->hasTag('container.excluded')) {
                 if ($throwOnAbstract && $definition->isAbstract()) {
                     throw new InvalidArgumentException(sprintf('The service "%s" tagged "%s" must not be abstract.', $id, $name));
                 }

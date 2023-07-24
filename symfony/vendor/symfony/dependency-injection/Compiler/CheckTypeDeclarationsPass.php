@@ -207,7 +207,7 @@ final class CheckTypeDeclarationsPass extends AbstractRecursivePass
         $class = null;
 
         if ($value instanceof Definition) {
-            if ($value->getFactory()) {
+            if ($value->hasErrors() || $value->getFactory()) {
                 return;
             }
 
@@ -303,6 +303,10 @@ final class CheckTypeDeclarationsPass extends AbstractRecursivePass
 
         if ('false' === $type) {
             if (false === $value) {
+                return;
+            }
+        } elseif ('true' === $type) {
+            if (true === $value) {
                 return;
             }
         } elseif ($reflectionType->isBuiltin()) {

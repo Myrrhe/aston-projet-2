@@ -23,6 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\AutowiringFailedException;
+use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\TypedReference;
@@ -50,7 +51,6 @@ class AutowirePass extends AbstractRecursivePass
     private ?int $decoratedMethodIndex = null;
     private ?int $decoratedMethodArgumentIndex = null;
     private ?self $typesClone = null;
-    private array $combinedAliases;
 
     public function __construct(bool $throwOnAutowireException = true)
     {
@@ -58,12 +58,21 @@ class AutowirePass extends AbstractRecursivePass
         $this->defaultArgument = new class() {
             public $value;
             public $names;
+            public $bag;
+
+            public function withValue(\ReflectionParameter $parameter): self
+            {
+                $clone = clone $this;
+                $clone->value = $this->bag->escapeValue($parameter->getDefaultValue());
+
+                return $clone;
+            }
         };
     }
 
     public function process(ContainerBuilder $container)
     {
-        $this->populateCombinedAliases($container);
+        $this->defaultArgument->bag = $container->getParameterBag();
 
         try {
             $this->typesClone = clone $this;
@@ -72,12 +81,12 @@ class AutowirePass extends AbstractRecursivePass
             $this->decoratedClass = null;
             $this->decoratedId = null;
             $this->methodCalls = null;
+            $this->defaultArgument->bag = null;
             $this->defaultArgument->names = null;
             $this->getPreviousValue = null;
             $this->decoratedMethodIndex = null;
             $this->decoratedMethodArgumentIndex = null;
             $this->typesClone = null;
-            $this->combinedAliases = [];
         }
     }
 
@@ -272,27 +281,32 @@ class AutowirePass extends AbstractRecursivePass
         foreach ($parameters as $index => $parameter) {
             $this->defaultArgument->names[$index] = $parameter->name;
 
+            if (\array_key_exists($parameter->name, $arguments)) {
+                $arguments[$index] = $arguments[$parameter->name];
+                unset($arguments[$parameter->name]);
+            }
             if (\array_key_exists($index, $arguments) && '' !== $arguments[$index]) {
                 continue;
             }
 
-            $type = ProxyHelper::exportType($parameter, true);
-
             if ($checkAttributes) {
                 foreach ($parameter->getAttributes() as $attribute) {
                     if (\in_array($attribute->getName(), [TaggedIterator::class, TaggedLocator::class, Autowire::class, MapDecorated::class], true)) {
-                        $arguments[$index] = $this->processAttribute($attribute->newInstance(), $parameter->allowsNull());
-
-                        break;
+                        try {
+                            $arguments[$index] = $this->processAttribute($attribute->newInstance(), $parameter->allowsNull());
+                            continue 2;
+                        } catch (ParameterNotFoundException $e) {
+                            if (!$parameter->isDefaultValueAvailable()) {
+                                throw new AutowiringFailedException($this->currentId, $e->getMessage(), 0, $e);
+                            }
+                            $arguments[$index] = clone $this->defaultArgument;
+                            $arguments[$index]->value = $parameter->getDefaultValue();
+                        }
                     }
-                }
-
-                if ('' !== ($arguments[$index] ?? '')) {
-                    continue;
                 }
             }
 
-            if (!$type) {
+            if (!$type = ProxyHelper::exportType($parameter, true)) {
                 if (isset($arguments[$index])) {
                     continue;
                 }
@@ -313,8 +327,7 @@ class AutowirePass extends AbstractRecursivePass
                 }
 
                 // specifically pass the default value
-                $arguments[$index] = clone $this->defaultArgument;
-                $arguments[$index]->value = $parameter->getDefaultValue();
+                $arguments[$index] = $this->defaultArgument->withValue($parameter);
 
                 continue;
             }
@@ -324,8 +337,7 @@ class AutowirePass extends AbstractRecursivePass
                     $failureMessage = $this->createTypeNotFoundMessageCallback($ref, sprintf('argument "$%s" of method "%s()"', $parameter->name, $class !== $this->currentId ? $class.'::'.$method : $method));
 
                     if ($parameter->isDefaultValueAvailable()) {
-                        $value = clone $this->defaultArgument;
-                        $value->value = $parameter->getDefaultValue();
+                        $value = $this->defaultArgument->withValue($parameter);
                     } elseif (!$parameter->allowsNull()) {
                         throw new AutowiringFailedException($this->currentId, $failureMessage);
                     }
@@ -367,7 +379,7 @@ class AutowirePass extends AbstractRecursivePass
 
         // it's possible index 1 was set, then index 0, then 2, etc
         // make sure that we re-order so they're injected as expected
-        ksort($arguments);
+        ksort($arguments, \SORT_NATURAL);
 
         return $arguments;
     }
@@ -397,12 +409,12 @@ class AutowirePass extends AbstractRecursivePass
                 return new TypedReference($alias, $type, $reference->getInvalidBehavior());
             }
 
-            if (null !== ($alias = $this->combinedAliases[$alias] ?? null) && !$this->container->findDefinition($alias)->isAbstract()) {
+            if (null !== ($alias = $this->getCombinedAlias($type, $name) ?? null) && !$this->container->findDefinition($alias)->isAbstract()) {
                 return new TypedReference($alias, $type, $reference->getInvalidBehavior());
             }
 
             if ($this->container->has($name) && !$this->container->findDefinition($name)->isAbstract()) {
-                foreach ($this->container->getAliases() + $this->combinedAliases as $id => $alias) {
+                foreach ($this->container->getAliases() as $id => $alias) {
                     if ($name === (string) $alias && str_starts_with($id, $type.' $')) {
                         return new TypedReference($name, $type, $reference->getInvalidBehavior());
                     }
@@ -414,7 +426,7 @@ class AutowirePass extends AbstractRecursivePass
             return new TypedReference($type, $type, $reference->getInvalidBehavior());
         }
 
-        if (null !== ($alias = $this->combinedAliases[$type] ?? null) && !$this->container->findDefinition($alias)->isAbstract()) {
+        if (null !== ($alias = $this->getCombinedAlias($type) ?? null) && !$this->container->findDefinition($alias)->isAbstract()) {
             return new TypedReference($alias, $type, $reference->getInvalidBehavior());
         }
 
@@ -620,44 +632,31 @@ class AutowirePass extends AbstractRecursivePass
         }
     }
 
-    private function populateCombinedAliases(ContainerBuilder $container): void
+    private function getCombinedAlias(string $type, string $name = null): ?string
     {
-        $this->combinedAliases = [];
-        $reverseAliases = [];
-
-        foreach ($container->getAliases() as $id => $alias) {
-            if (!preg_match('/(?(DEFINE)(?<V>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+))^((?&V)(?:\\\\(?&V))*+)(?: \$((?&V)))?$/', $id, $m)) {
-                continue;
-            }
-
-            $type = $m[2];
-            $name = $m[3] ?? '';
-            $reverseAliases[(string) $alias][$name][] = $type;
+        if (str_contains($type, '&')) {
+            $types = explode('&', $type);
+        } elseif (str_contains($type, '|')) {
+            $types = explode('|', $type);
+        } else {
+            return null;
         }
 
-        foreach ($reverseAliases as $alias => $names) {
-            foreach ($names as $name => $types) {
-                if (2 > $count = \count($types)) {
-                    continue;
-                }
-                sort($types);
-                $i = 1 << $count;
+        $alias = null;
+        $suffix = $name ? ' $'.$name : '';
 
-                // compute the powerset of the list of types
-                while ($i--) {
-                    $set = [];
-                    for ($j = 0; $j < $count; ++$j) {
-                        if ($i & (1 << $j)) {
-                            $set[] = $types[$j];
-                        }
-                    }
+        foreach ($types as $type) {
+            if (!$this->container->hasAlias($type.$suffix)) {
+                return null;
+            }
 
-                    if (2 <= \count($set)) {
-                        $this->combinedAliases[implode('&', $set).('' === $name ? '' : ' $'.$name)] = $alias;
-                        $this->combinedAliases[implode('|', $set).('' === $name ? '' : ' $'.$name)] = $alias;
-                    }
-                }
+            if (null === $alias) {
+                $alias = (string) $this->container->getAlias($type.$suffix);
+            } elseif ((string) $this->container->getAlias($type.$suffix) !== $alias) {
+                return null;
             }
         }
+
+        return $alias;
     }
 }

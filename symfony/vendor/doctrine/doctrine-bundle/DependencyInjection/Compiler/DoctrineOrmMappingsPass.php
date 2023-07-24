@@ -18,6 +18,8 @@ use Symfony\Component\DependencyInjection\Reference;
  * auto-mapped folder.
  *
  * NOTE: alias is only supported by Symfony 2.6+ and will be ignored with older versions.
+ *
+ * @final since 2.9
  */
 class DoctrineOrmMappingsPass extends RegisterMappingsPass
 {
@@ -64,10 +66,10 @@ class DoctrineOrmMappingsPass extends RegisterMappingsPass
      *
      * @return self
      */
-    public static function createXmlMappingDriver(array $namespaces, array $managerParameters = [], $enabledParameter = false, array $aliasMap = [])
+    public static function createXmlMappingDriver(array $namespaces, array $managerParameters = [], $enabledParameter = false, array $aliasMap = [], bool $enableXsdValidation = false)
     {
         $locator = new Definition(SymfonyFileLocator::class, [$namespaces, '.orm.xml']);
-        $driver  = new Definition(XmlDriver::class, [$locator]);
+        $driver  = new Definition(XmlDriver::class, [$locator, null, $enableXsdValidation]);
 
         return new DoctrineOrmMappingsPass($driver, $namespaces, $managerParameters, $enabledParameter, $aliasMap);
     }

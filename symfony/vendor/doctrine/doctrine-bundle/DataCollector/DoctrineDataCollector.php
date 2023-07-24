@@ -61,7 +61,6 @@ class DoctrineDataCollector extends BaseCollector
 
     private bool $shouldValidateSchema;
 
-    /** @psalm-suppress UndefinedClass */
     public function __construct(ManagerRegistry $registry, bool $shouldValidateSchema = true, ?DebugDataHolder $debugDataHolder = null)
     {
         $this->registry             = $registry;
@@ -70,15 +69,11 @@ class DoctrineDataCollector extends BaseCollector
         if ($debugDataHolder === null) {
             parent::__construct($registry);
         } else {
-            /** @psalm-suppress TooManyArguments */
             parent::__construct($registry, $debugDataHolder);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function collect(Request $request, Response $response, ?Throwable $exception = null)
+    public function collect(Request $request, Response $response, ?Throwable $exception = null): void
     {
         parent::collect($request, $response, $exception);
 
@@ -116,7 +111,12 @@ class DoctrineDataCollector extends BaseCollector
                     }
 
                     $classErrors                        = $validator->validateClass($class);
-                    $entities[$name][$class->getName()] = $class->getName();
+                    $r                                  = $class->getReflectionClass();
+                    $entities[$name][$class->getName()] = [
+                        'class' => $class->getName(),
+                        'file' => $r->getFileName(),
+                        'line' => $r->getStartLine(),
+                    ];
 
                     if (empty($classErrors)) {
                         continue;
