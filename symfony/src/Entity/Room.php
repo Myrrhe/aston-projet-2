@@ -206,4 +206,13 @@ class Room
     {
         return $this->name;
     }
+
+    public function serialize(): array
+    {
+        return [
+            'name'   => $this->name,
+            'floor'  => $this->floor,
+            'number' => $this->number,
+        ];
+    }
 }
