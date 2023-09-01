@@ -158,4 +158,4 @@ Vous y trouverez une méthode **execute** contenant un tableau de donnée. Modif
 
 ## Lancement
 
-Pour lancer le serveur, allez dans le dossier *symfony*, puis entrez `symfony server:start`
+Pour lancer le serveur, allez à la racine du projet (là où se trouve *index.php*), puis entrez `symfony server:start`
