@@ -105,4 +105,45 @@ class UserController extends AbstractController
             return new Response("You need to be logged", Response::HTTP_FORBIDDEN);
         }
     }
+
+    #[Route('/my-prescriptions', name: 'my-prescriptions')]
+    public function myPrescriptions(): Response
+    {
+        $securityContext = $this->container->get('security.authorization_checker');
+        if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            /** @var User */
+            $user = $this->getUser();
+            $role = $this->userService->whatAmI($user->getId());
+            if ($role === 0) {
+                return $this->json([]);
+            } else {
+                $patients   = $this->entityManager->getRepository(Patient::class)
+                    ->findBy(['userId' => $user->getId()]);
+                $physicians = $this->entityManager->getRepository(Physician::class)
+                    ->findBy(['userId' => $user->getId()]);
+                $res = [
+                    'patient'   => [],
+                    'physician' => [],
+                ];
+                foreach ($patients as $patient) {
+                    $appointements = $patient->getAppointments();
+                    foreach ($appointements as $appointement) {
+                        $prescriptions = $appointement->getPrescriptions();
+                        foreach ($prescriptions as $prescription) {
+                            array_push($res['patient'], $prescription->serialize());
+                        }
+                    }
+                }
+                foreach ($physicians as $physician) {
+                    $prescriptions = $physician->getPrescriptions();
+                    foreach ($prescriptions as $prescription) {
+                        array_push($res['physician'], $prescription->serialize());
+                    }
+                }
+            }
+            return $this->json($res);
+        } else {
+            return new Response("You need to be logged", Response::HTTP_FORBIDDEN);
+        }
+    }
 }

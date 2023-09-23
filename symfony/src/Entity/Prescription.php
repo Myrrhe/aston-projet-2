@@ -123,6 +123,18 @@ class Prescription
 
     public function __toString()
     {
-        return 'Prescription: ' . $this->date;
+        return 'Prescription: ' . $this->date->format('Y-m-d');
+    }
+
+    public function serialize(): array
+    {
+        return [
+            'description' => $this->description,
+            'date' => $this->date,
+            'medication' => array_reduce($this->prescriptionsMedications->toArray(), function($carry, $e) {
+                $carry .= sprintf("%s %d X, ", $e->getMedicationId()->getName(), $e->getQuantity());
+                return $carry;
+            }, ''),
+        ];
     }
 }
